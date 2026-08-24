@@ -202,3 +202,65 @@
     transform: translateX(-50%);
   }
 }
+
+@layer components {
+  /* --- Editorial long-form -------------------------------------------------
+     Applied to journal bodies and any other admin-authored HTML. Kept as a
+     hand-rolled set rather than @tailwindcss/typography so the measure,
+     rhythm and gold accents match the rest of the house. */
+  .prose-editorial {
+    @apply text-[1.05rem] leading-[1.8] text-ink-soft;
+  }
+  .prose-editorial > * + * {
+    @apply mt-6;
+  }
+  .prose-editorial h2 {
+    @apply mt-14 font-display text-[1.65rem] leading-snug text-ink;
+  }
+  .prose-editorial h3 {
+    @apply mt-10 font-display text-[1.3rem] leading-snug text-ink;
+  }
+  .prose-editorial h2 + p,
+  .prose-editorial h3 + p {
+    @apply mt-4;
+  }
+  .prose-editorial a {
+    @apply text-emerald underline decoration-gold underline-offset-4 transition-colors hover:text-emerald-deep;
+  }
+  .prose-editorial strong {
+    @apply font-semibold text-ink;
+  }
+  .prose-editorial em {
+    @apply italic;
+  }
+  .prose-editorial ul {
+    @apply list-disc space-y-2 pl-5 marker:text-gold;
+  }
+  .prose-editorial ol {
+    @apply list-decimal space-y-2 pl-5 marker:text-gold;
+  }
+  .prose-editorial blockquote {
+    @apply border-l-2 border-gold py-1 pl-6 font-display text-[1.2rem] leading-relaxed text-ink;
+  }
+  .prose-editorial img {
+    @apply my-10 w-full;
+  }
+  .prose-editorial figcaption {
+    @apply mt-2 text-xs text-ink-faint;
+  }
+  .prose-editorial hr {
+    @apply my-12 border-0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(198, 161, 91, 0.6), transparent);
+  }
+  .prose-editorial code {
+    @apply bg-cream px-1.5 py-0.5 text-[0.9em];
+  }
+  .prose-editorial table {
+    @apply w-full border-collapse text-sm;
+  }
+  .prose-editorial th,
+  .prose-editorial td {
+    @apply border-b border-ink/10 py-2.5 text-left;
+  }
+}
