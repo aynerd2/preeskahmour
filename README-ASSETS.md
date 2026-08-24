@@ -130,9 +130,9 @@ saved, the placeholder is simply never requested again.
 
 | Slot | Where it appears | Size (px) | Brief |
 | --- | --- | --- | --- |
-| `product-ìtàn-emerald-two-piece-1.svg` | Ìtàn Emerald Two-Piece — primary | 1000×1333 | Full-length front, model standing square, hands relaxed. Cream seamless, soft key from camera left. This is the grid image — the garment must fill the frame vertically with even margins. |
-| `product-ìtàn-emerald-two-piece-2.svg` | Ìtàn Emerald Two-Piece — movement | 1000×1333 | Three-quarter or walking frame of the same look, showing drape and how the cloth moves. |
-| `product-ìtàn-emerald-two-piece-3.svg` | Ìtàn Emerald Two-Piece — detail | 1000×1333 | Detail crop: lapel, cuff, pocket or embroidery. Raking light. This is the shot that sells hand finishing. |
+| `product-itan-emerald-two-piece-1.svg` | Ìtàn Emerald Two-Piece — primary | 1000×1333 | Full-length front, model standing square, hands relaxed. Cream seamless, soft key from camera left. This is the grid image — the garment must fill the frame vertically with even margins. |
+| `product-itan-emerald-two-piece-2.svg` | Ìtàn Emerald Two-Piece — movement | 1000×1333 | Three-quarter or walking frame of the same look, showing drape and how the cloth moves. |
+| `product-itan-emerald-two-piece-3.svg` | Ìtàn Emerald Two-Piece — detail | 1000×1333 | Detail crop: lapel, cuff, pocket or embroidery. Raking light. This is the shot that sells hand finishing. |
 | `product-abeokuta-adire-blazer-1.svg` | Abéòkúta Adire Blazer — primary | 1000×1333 | Full-length front, model standing square, hands relaxed. Cream seamless, soft key from camera left. This is the grid image — the garment must fill the frame vertically with even margins. |
 | `product-abeokuta-adire-blazer-2.svg` | Abéòkúta Adire Blazer — movement | 1000×1333 | Three-quarter or walking frame of the same look, showing drape and how the cloth moves. |
 | `product-abeokuta-adire-blazer-3.svg` | Abéòkúta Adire Blazer — detail | 1000×1333 | Detail crop: lapel, cuff, pocket or embroidery. Raking light. This is the shot that sells hand finishing. |

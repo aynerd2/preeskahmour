@@ -149,7 +149,7 @@ export const ASSET_SLOTS: AssetSlot[] = [
 
 function PRODUCT_SLOTS(): AssetSlot[] {
   const products: [string, string, AssetSlot['tone']][] = [
-    ['ìtàn-emerald-two-piece', 'Ìtàn Emerald Two-Piece', 'emerald'],
+    ['itan-emerald-two-piece', 'Ìtàn Emerald Two-Piece', 'emerald'],
     ['abeokuta-adire-blazer', 'Abéòkúta Adire Blazer', 'indigo'],
     ['iseyin-asooke-suit', 'Ìseyìn Aso-oke Suit', 'gold'],
     ['boardroom-worsted-trouser-suit', 'Boardroom Worsted Trouser Suit', 'ink'],
