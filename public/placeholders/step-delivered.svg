@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="Placeholder for How It Works — step 4">
+  <rect width="1200" height="900" fill="#C6A15B"/>
+  <g stroke="#14110F" stroke-opacity="0.35" stroke-width="3" fill="none">
+    <path d="M63 108V63h45"/>
+    <path d="M1092 63h45v45"/>
+    <path d="M1137 792v45h-45"/>
+    <path d="M108 837h-45v-45"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#14110F" text-anchor="middle">
+    <text x="600" y="432.5" font-size="50" letter-spacing="1">How It Works — step 4</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#14110F" fill-opacity="0.8" text-anchor="middle">
+    <text x="600" y="495" font-size="23" letter-spacing="4.14">1200 × 900</text>
+    <text x="600" y="541" font-size="18.86" fill-opacity="0.62">Deep emerald garment box with the gold foil wordmark, tissue and ribbon, shot overhead on a cream</text>
+    <text x="600" y="575.5" font-size="18.86" fill-opacity="0.62">surface.</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#14110F" fill-opacity="0.55" font-size="17" letter-spacing="4.760000000000001">
+    <text x="63" y="56.2">PLACEHOLDER — NOT FINAL ARTWORK</text>
+    <text x="63" y="860.8">step-delivered.svg</text>
+  </g>
+</svg>

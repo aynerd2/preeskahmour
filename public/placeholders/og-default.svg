@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Placeholder for Default social share card">
+  <rect width="1200" height="630" fill="#0B4D3F"/>
+  <g stroke="#E2C88F" stroke-opacity="0.35" stroke-width="2" fill="none">
+    <path d="M44 76V44h32"/>
+    <path d="M1124 44h32v32"/>
+    <path d="M1156 554v32h-32"/>
+    <path d="M76 586h-32v-32"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#E2C88F" text-anchor="middle">
+    <text x="600" y="302.75" font-size="35" letter-spacing="0.7000000000000001">Default social share card</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#E2C88F" fill-opacity="0.8" text-anchor="middle">
+    <text x="600" y="346.5" font-size="16" letter-spacing="2.88">1200 × 630</text>
+    <text x="600" y="378.5" font-size="13.12" fill-opacity="0.62">Wordmark on deep emerald with a single folded length of aso-oke entering from the right. Must read at thumbnail size — no small type.</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#E2C88F" fill-opacity="0.55" font-size="12" letter-spacing="3.3600000000000003">
+    <text x="44" y="39.2">PLACEHOLDER — NOT FINAL ARTWORK</text>
+    <text x="44" y="602.8">og-default.svg</text>
+  </g>
+</svg>

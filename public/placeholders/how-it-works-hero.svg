@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1200" viewBox="0 0 2400 1200" role="img" aria-label="Placeholder for How It Works — hero">
+  <rect width="2400" height="1200" fill="#0B4D3F"/>
+  <g stroke="#E2C88F" stroke-opacity="0.35" stroke-width="4" fill="none">
+    <path d="M84 144V84h60"/>
+    <path d="M2256 84h60v60"/>
+    <path d="M2316 1056v60h-60"/>
+    <path d="M144 1116h-60v-60"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#E2C88F" text-anchor="middle">
+    <text x="1200" y="576.9" font-size="66" letter-spacing="1.32">How It Works — hero</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#E2C88F" fill-opacity="0.8" text-anchor="middle">
+    <text x="1200" y="659.4" font-size="31" letter-spacing="5.58">2400 × 1200</text>
+    <text x="1200" y="721.4" font-size="25.419999999999998" fill-opacity="0.62">Hands pinning a canvassed jacket front onto a dress form. Atelier visible behind but soft. Warm, low contrast, unhurried.</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#E2C88F" fill-opacity="0.55" font-size="23" letter-spacing="6.44">
+    <text x="84" y="74.8">PLACEHOLDER — NOT FINAL ARTWORK</text>
+    <text x="84" y="1148.2">how-it-works-hero.svg</text>
+  </g>
+</svg>

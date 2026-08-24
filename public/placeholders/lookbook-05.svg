@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="Placeholder for Lookbook masonry grid">
+  <rect width="1200" height="900" fill="#B45A3C"/>
+  <g stroke="#FBF8F3" stroke-opacity="0.35" stroke-width="3" fill="none">
+    <path d="M63 108V63h45"/>
+    <path d="M1092 63h45v45"/>
+    <path d="M1137 792v45h-45"/>
+    <path d="M108 837h-45v-45"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#FBF8F3" text-anchor="middle">
+    <text x="600" y="432.5" font-size="50" letter-spacing="1">Lookbook masonry grid</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#FBF8F3" fill-opacity="0.8" text-anchor="middle">
+    <text x="600" y="495" font-size="23" letter-spacing="4.14">1200 × 900</text>
+    <text x="600" y="541" font-size="18.86" fill-opacity="0.62">Detail: stacked bolts of cloth, colour blocked.</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#FBF8F3" fill-opacity="0.55" font-size="17" letter-spacing="4.760000000000001">
+    <text x="63" y="56.2">PLACEHOLDER — NOT FINAL ARTWORK</text>
+    <text x="63" y="860.8">lookbook-05.svg</text>
+  </g>
+</svg>

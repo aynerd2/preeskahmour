@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1333" viewBox="0 0 1000 1333" role="img" aria-label="Placeholder for George Evening Column — detail">
+  <rect width="1000" height="1333" fill="#C6A15B"/>
+  <g stroke="#14110F" stroke-opacity="0.35" stroke-width="3" fill="none">
+    <path d="M70 120V70h50"/>
+    <path d="M880 70h50v50"/>
+    <path d="M930 1213v50h-50"/>
+    <path d="M120 1263h-50v-50"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#14110F" text-anchor="middle">
+    <text x="500" y="647.25" font-size="55" letter-spacing="1.1">George Evening Column — detail</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#14110F" fill-opacity="0.8" text-anchor="middle">
+    <text x="500" y="716" font-size="26" letter-spacing="4.68">1000 × 1333</text>
+    <text x="500" y="768" font-size="21.32" fill-opacity="0.62">Detail crop: lapel, cuff, pocket or embroidery. Raking light. This is the</text>
+    <text x="500" y="807" font-size="21.32" fill-opacity="0.62">shot that sells hand finishing.</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#14110F" fill-opacity="0.55" font-size="19" letter-spacing="5.32">
+    <text x="70" y="62.4">PLACEHOLDER — NOT FINAL ARTWORK</text>
+    <text x="70" y="1289.6">product-george-evening-column-3.svg</text>
+  </g>
+</svg>

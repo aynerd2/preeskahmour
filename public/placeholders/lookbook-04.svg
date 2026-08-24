@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" role="img" aria-label="Placeholder for Lookbook masonry grid">
+  <rect width="1200" height="1600" fill="#E7DBC7"/>
+  <g stroke="#5B5350" stroke-opacity="0.35" stroke-width="4" fill="none">
+    <path d="M84 144V84h60"/>
+    <path d="M1056 84h60v60"/>
+    <path d="M1116 1456v60h-60"/>
+    <path d="M144 1516h-60v-60"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#5B5350" text-anchor="middle">
+    <text x="600" y="776.9" font-size="66" letter-spacing="1.32">Lookbook masonry grid</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#5B5350" fill-opacity="0.8" text-anchor="middle">
+    <text x="600" y="859.4" font-size="31" letter-spacing="5.58">1200 × 1600</text>
+    <text x="600" y="921.4" font-size="25.419999999999998" fill-opacity="0.62">Bridal ivory George, cropped at the knee, hands and embroidery in focus.</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#5B5350" fill-opacity="0.55" font-size="23" letter-spacing="6.44">
+    <text x="84" y="74.8">PLACEHOLDER — NOT FINAL ARTWORK</text>
+    <text x="84" y="1548.2">lookbook-04.svg</text>
+  </g>
+</svg>

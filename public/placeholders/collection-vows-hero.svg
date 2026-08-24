@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1300" viewBox="0 0 2400 1300" role="img" aria-label="Placeholder for Collection — Vows hero">
+  <rect width="2400" height="1300" fill="#E7DBC7"/>
+  <g stroke="#5B5350" stroke-opacity="0.35" stroke-width="4" fill="none">
+    <path d="M91 156V91h65"/>
+    <path d="M2244 91h65v65"/>
+    <path d="M2309 1144v65h-65"/>
+    <path d="M156 1209h-65v-65"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#5B5350" text-anchor="middle">
+    <text x="1200" y="624.8" font-size="72" letter-spacing="1.44">Collection — Vows hero</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#5B5350" fill-opacity="0.8" text-anchor="middle">
+    <text x="1200" y="714.8" font-size="34" letter-spacing="6.12">2400 × 1300</text>
+    <text x="1200" y="782.8" font-size="27.88" fill-opacity="0.62">Bridal party in ivory and gold, shot in soft window light. Group composition with room for type on the left.</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#5B5350" fill-opacity="0.55" font-size="25" letter-spacing="7.000000000000001">
+    <text x="91" y="81">PLACEHOLDER — NOT FINAL ARTWORK</text>
+    <text x="91" y="1244">collection-vows-hero.svg</text>
+  </g>
+</svg>

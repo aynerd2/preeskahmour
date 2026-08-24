@@ -1,0 +1,754 @@
+// ---------------------------------------------------------------------------
+// Preeskahmour — data model
+//
+// Money convention: every monetary column is an Int in the smallest unit of
+// NGN (kobo). 4_500_000 == NGN 45,000. Never store floats for money.
+// Fabric prices are `pricePerMeterKobo`; garment totals resolve through
+// src/lib/pricing.ts.
+// ---------------------------------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+/// The five life-stages / occasions the house cuts for.
+enum Occasion {
+  CORPORATE
+  BRIDAL
+  MATERNITY
+  PARTY
+  EVERYDAY
+}
+
+enum FabricFamily {
+  ANKARA
+  ASO_OKE
+  ADIRE
+  AKWETE
+  GEORGE
+  KENTE
+  WOOL
+  LINEN
+  SATIN
+}
+
+enum FabricWeight {
+  LIGHT
+  MID
+  HEAVY
+}
+
+enum DesignOptionCategory {
+  LAPEL
+  CLOSURE
+  BUTTON_COUNT
+  BUTTON_COLOR
+  POCKET
+  SLEEVE
+  LINING
+  TRIM
+}
+
+enum FitPreference {
+  REGULAR
+  SLIM
+  RELAXED
+  MATERNITY
+}
+
+/// How a measurement profile was produced. ESTIMATED profiles came from the
+/// heuristic in src/lib/measurements.ts, not from a tape or a body scan.
+enum MeasurementSource {
+  MANUAL
+  ESTIMATED
+  ATELIER
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAID
+  IN_ATELIER
+  CUTTING
+  STITCHING
+  FINISHING
+  QUALITY_CHECK
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentProviderKind {
+  PAYSTACK
+  STRIPE
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+enum EnquiryStatus {
+  NEW
+  IN_PROGRESS
+  QUOTED
+  CLOSED
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+// ---------------------------------------------------------------------------
+// Identity
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  phone         String?
+  image         String?
+  role          Role      @default(CUSTOMER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  accounts            Account[]
+  sessions            Session[]
+  measurementProfiles MeasurementProfile[]
+  customDesigns       CustomDesign[]
+  orders              Order[]
+  addresses           Address[]
+
+  @@index([role])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Address {
+  id        String  @id @default(cuid())
+  userId    String
+  label     String?
+  fullName  String
+  phone     String
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  country   String  @default("Nigeria")
+  postcode  String?
+  isDefault Boolean @default(false)
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[]
+
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------------------
+// Measurements
+// ---------------------------------------------------------------------------
+
+/// A reusable set of body measurements. All values in centimetres.
+model MeasurementProfile {
+  id     String  @id @default(cuid())
+  userId String?
+  name   String  @default("My measurements")
+
+  source MeasurementSource @default(MANUAL)
+
+  // Inputs used by the heuristic estimator, kept so an estimate can be re-run.
+  heightCm      Float?
+  weightKg      Float?
+  fitPreference FitPreference @default(REGULAR)
+  braBandCm     Float?
+  torsoLength   String? // SHORT | AVERAGE | LONG
+  shoulderSlope String? // SQUARE | AVERAGE | SLOPED
+
+  // The measurements themselves.
+  bustCm         Float?
+  underbustCm    Float?
+  waistCm        Float?
+  hipCm          Float?
+  shoulderCm     Float?
+  backWidthCm    Float?
+  jacketLengthCm Float?
+  sleeveLengthCm Float?
+  bicepCm        Float?
+  wristCm        Float?
+  neckCm         Float?
+  inseamCm       Float?
+  outseamCm      Float?
+  thighCm        Float?
+  kneeCm         Float?
+  ankleCm        Float?
+  skirtLengthCm  Float?
+
+  // Maternity-specific: weeks pregnant when measured, so the atelier knows how
+  // much expansion allowance to build into the side panels.
+  pregnancyWeeks Int?
+
+  notes     String?
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customDesigns CustomDesign[]
+
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------------------
+// Catalogue: fabrics, base styles, design options
+// ---------------------------------------------------------------------------
+
+model Fabric {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  description String? @db.Text
+
+  family FabricFamily
+  weight FabricWeight @default(MID)
+
+  /// Human colour label ("Indigo & Chalk") plus a hex used for UI chips and as
+  /// the tint for the procedural swatch when no photograph is uploaded yet.
+  colorName String
+  colorHex  String   @default("#0B4D3F")
+  /// Secondary colours present in the cloth — powers the colour filter.
+  colorTags String[] @default([])
+
+  /// Cloudinary URL of the flat swatch photograph. When empty the app renders
+  /// a procedural SVG swatch from `family` + `colorHex` (see lib/swatches.ts).
+  swatchImage String?
+  /// Larger tileable texture used by the builder's live preview.
+  textureImage String?
+  /// Editorial shot of the cloth made up into a garment.
+  detailImage String?
+
+  pricePerMeterKobo Int
+  composition       String?
+  gsm               Int?
+  widthCm           Int?
+  origin            String? // "Abeokuta, Ogun State"
+  artisanNote       String? @db.Text
+
+  occasions Occasion[] @default([])
+
+  inStock    Boolean @default(true)
+  isFeatured Boolean @default(false)
+  sortOrder  Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customDesigns CustomDesign[]
+  products      Product[]
+
+  @@index([family])
+  @@index([inStock, isFeatured])
+}
+
+/// A cut the house offers — e.g. "Blazer + Trouser". Everything the builder
+/// composites for this silhouette hangs off here.
+model BaseStyle {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  tagline     String?
+  description String? @db.Text
+
+  basePriceKobo Int
+  /// Metres of cloth consumed by a size-14 cut. Fabric cost =
+  /// pricePerMeterKobo * yardageMeters (see lib/pricing.ts).
+  yardageMeters Float @default(3.2)
+
+  /// Thumbnail used in step 1 of the builder and in nav menus.
+  thumbnailImage String?
+  /// Greyscale garment illustration the fabric texture is masked into:
+  /// white = take the fabric, black = transparent.
+  previewMaskUrl String?
+  /// Line-art shading drawn on top of the fabric-filled shape.
+  previewShadingUrl String?
+
+  occasions     Occasion[]      @default([])
+  supportedFits FitPreference[] @default([REGULAR, SLIM, RELAXED])
+  /// Which option categories apply to this cut. A wrap dress has no lapel.
+  optionCategories DesignOptionCategory[] @default([])
+
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designOptions DesignOption[]
+  customDesigns CustomDesign[]
+  products      Product[]
+
+  @@index([isActive])
+}
+
+/// One selectable choice inside a builder step — a notch lapel, a patch
+/// pocket, an emerald lining. `priceModifierKobo` is added to the total.
+model DesignOption {
+  id          String               @id @default(cuid())
+  slug        String
+  name        String
+  category    DesignOptionCategory
+  description String?              @db.Text
+
+  priceModifierKobo Int @default(0)
+
+  /// Small icon shown on the option chip.
+  iconUrl String?
+  /// Transparent PNG/SVG composited over the garment in the live preview.
+  overlayUrl String?
+  /// Hex for colour-type options (button colour, lining, trim thread).
+  colorHex String?
+  /// Layer order in the preview stack; higher paints later.
+  zIndex Int @default(10)
+
+  /// Null = available on every base style. Set = scoped to one cut.
+  baseStyleId String?
+  baseStyle   BaseStyle? @relation(fields: [baseStyleId], references: [id], onDelete: Cascade)
+
+  isDefault Boolean @default(false)
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  selections CustomDesignOption[]
+
+  @@unique([slug, baseStyleId])
+  @@index([category, isActive])
+}
+
+// ---------------------------------------------------------------------------
+// Ready-to-shop catalogue
+// ---------------------------------------------------------------------------
+
+model Collection {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  subtitle    String?
+  description String? @db.Text
+  season      String? // "Harmattan 2025"
+
+  heroImage String?
+  tileImage String?
+
+  occasion   Occasion?
+  isFeatured Boolean   @default(false)
+  isActive   Boolean   @default(true)
+  sortOrder  Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products       Product[]
+  lookbookImages LookbookImage[]
+
+  @@index([isActive, isFeatured])
+}
+
+model Product {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  subtitle    String?
+  description String? @db.Text
+  storyNote   String? @db.Text
+
+  priceKobo     Int
+  compareAtKobo Int?
+
+  occasion Occasion
+  /// Free-text silhouette tag used by the shop filter: "Double-breasted",
+  /// "Wrap", "Column skirt"…
+  silhouette String
+
+  /// Suggested starting point when the customer taps "Customise this".
+  baseStyleId String?
+  baseStyle   BaseStyle? @relation(fields: [baseStyleId], references: [id])
+  fabricId    String?
+  fabric      Fabric?    @relation(fields: [fabricId], references: [id])
+
+  collectionId String?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+
+  isMadeToMeasure Boolean @default(true)
+  isFeatured      Boolean @default(false)
+  isActive        Boolean @default(true)
+  sortOrder       Int     @default(0)
+
+  leadTimeDays Int @default(21)
+
+  seoTitle       String?
+  seoDescription String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images     ProductImage[]
+  orderItems OrderItem[]
+
+  @@index([isActive, occasion])
+  @@index([collectionId])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  url       String
+  alt       String?
+  /// Art-direction note for the photographer, surfaced in README-ASSETS.md.
+  briefNote String?
+  sortOrder Int     @default(0)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+// ---------------------------------------------------------------------------
+// The builder's output
+// ---------------------------------------------------------------------------
+
+/// A saved configurator state. Created as a draft while the customer is still
+/// designing, then frozen into an OrderItem at checkout.
+model CustomDesign {
+  id     String  @id @default(cuid())
+  userId String?
+  name   String  @default("Untitled design")
+
+  baseStyleId String
+  fabricId    String
+  fit         FitPreference @default(REGULAR)
+
+  measurementProfileId String?
+
+  /// Optional monogram embroidered inside the jacket.
+  monogram String?
+  notes    String? @db.Text
+
+  /// Denormalised price at save time so historical orders never move when
+  /// Prisca re-prices a fabric.
+  totalPriceKobo Int @default(0)
+  /// Full recomputable snapshot: option ids, labels, price lines, preview
+  /// layer URLs. Lets an order render years later even if a fabric is deleted.
+  snapshot Json?
+
+  isDraft   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user               User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  baseStyle          BaseStyle           @relation(fields: [baseStyleId], references: [id])
+  fabric             Fabric              @relation(fields: [fabricId], references: [id])
+  measurementProfile MeasurementProfile? @relation(fields: [measurementProfileId], references: [id])
+
+  options    CustomDesignOption[]
+  orderItems OrderItem[]
+
+  @@index([userId, isDraft])
+}
+
+model CustomDesignOption {
+  id             String @id @default(cuid())
+  customDesignId String
+  designOptionId String
+
+  customDesign CustomDesign @relation(fields: [customDesignId], references: [id], onDelete: Cascade)
+  designOption DesignOption @relation(fields: [designOptionId], references: [id], onDelete: Cascade)
+
+  @@unique([customDesignId, designOptionId])
+  @@index([customDesignId])
+}
+
+// ---------------------------------------------------------------------------
+// Commerce
+// ---------------------------------------------------------------------------
+
+model Order {
+  id        String @id @default(cuid())
+  reference String @unique
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  // Guest checkout keeps contact details on the order itself.
+  email        String
+  phone        String
+  customerName String
+
+  addressId String?
+  address   Address? @relation(fields: [addressId], references: [id])
+
+  shipFullName String
+  shipLine1    String
+  shipLine2    String?
+  shipCity     String
+  shipState    String
+  shipCountry  String  @default("Nigeria")
+  shipPostcode String?
+
+  status OrderStatus @default(PENDING_PAYMENT)
+
+  currency     String @default("NGN")
+  subtotalKobo Int
+  shippingKobo Int    @default(0)
+  discountKobo Int    @default(0)
+  totalKobo    Int
+
+  /// Which rail took the money and what it returned.
+  paymentProvider  PaymentProviderKind?
+  paymentStatus    PaymentStatus        @default(PENDING)
+  paymentReference String?
+  paymentRaw       Json?
+  paidAt           DateTime?
+
+  /// Internal notes from the atelier, shown in /studio only.
+  atelierNotes String? @db.Text
+  customerNote String? @db.Text
+
+  trackingUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id      String @id @default(cuid())
+  orderId String
+
+  productId      String?
+  customDesignId String?
+
+  /// Frozen display data — an order line must survive the catalogue changing.
+  name          String
+  descriptor    String? // "Adire Elu · Peak lapel · Slim"
+  imageUrl      String?
+  unitPriceKobo Int
+  quantity      Int     @default(1)
+  totalKobo     Int
+
+  /// Frozen copy of the measurements this piece is cut to, plus the full
+  /// builder snapshot. The atelier works from this, not from live rows.
+  measurementSnapshot Json?
+  designSnapshot      Json?
+
+  order        Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product      Product?      @relation(fields: [productId], references: [id])
+  customDesign CustomDesign? @relation(fields: [customDesignId], references: [id])
+
+  @@index([orderId])
+}
+
+// ---------------------------------------------------------------------------
+// Editorial & site content — all of this is editable from /studio
+// ---------------------------------------------------------------------------
+
+model BlogPost {
+  id         String  @id @default(cuid())
+  slug       String  @unique
+  title      String
+  excerpt    String? @db.Text
+  /// Rich text stored as HTML produced by the /studio editor.
+  body       String  @db.Text
+  coverImage String?
+  coverAlt   String?
+
+  category String   @default("Journal") // Styling | Fabric | Atelier | Journal
+  tags     String[] @default([])
+
+  authorName  String @default("Prisca Ogunlade")
+  readMinutes Int    @default(4)
+
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+
+  seoTitle       String?
+  seoDescription String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, publishedAt])
+}
+
+model LookbookImage {
+  id      String  @id @default(cuid())
+  url     String
+  alt     String?
+  caption String?
+  /// Art-direction note for the shoot, mirrored into README-ASSETS.md.
+  briefNote String?
+
+  collectionId String?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+
+  season   String?
+  occasion Occasion?
+
+  /// Masonry sizing hint: 1 = standard, 2 = tall, 3 = wide.
+  spanHint Int @default(1)
+
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@index([isActive])
+}
+
+model Testimonial {
+  id         String  @id @default(cuid())
+  quote      String  @db.Text
+  authorName String
+  authorRole String?
+  location   String?
+  imageUrl   String?
+  rating     Int     @default(5)
+
+  isFeatured Boolean @default(false)
+  isActive   Boolean @default(true)
+  sortOrder  Int     @default(0)
+
+  createdAt DateTime @default(now())
+}
+
+/// Homepage occasion tiles ("Corporate", "Bridal"…). Editable, so Prisca can
+/// re-order, re-image or retire a category without a deploy.
+model HomeTile {
+  id        String    @id @default(cuid())
+  label     String
+  subtitle  String?
+  href      String
+  imageUrl  String?
+  briefNote String?
+  occasion  Occasion?
+  isActive  Boolean   @default(true)
+  sortOrder Int       @default(0)
+}
+
+/// Singleton content blobs keyed by a stable string — homepage hero, story
+/// teaser, the Instagram strip, announcement bar, footer, contact details,
+/// How-It-Works steps, FAQ, measurement-guide copy. See lib/site-content.ts
+/// for the typed accessors and the defaults used before the first save.
+model SiteSetting {
+  key       String   @id
+  label     String
+  group     String   @default("General")
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Inbound
+// ---------------------------------------------------------------------------
+
+model B2BEnquiry {
+  id           String    @id @default(cuid())
+  companyName  String
+  contactName  String
+  email        String
+  phone        String
+  industry     String?
+  headcount    Int?
+  garmentTypes String[]  @default([])
+  neededBy     DateTime?
+  budgetNote   String?
+  message      String    @db.Text
+
+  status    EnquiryStatus @default(NEW)
+  adminNote String?       @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+model ContactMessage {
+  id      String  @id @default(cuid())
+  name    String
+  email   String
+  phone   String?
+  topic   String  @default("General")
+  message String  @db.Text
+
+  status    EnquiryStatus @default(NEW)
+  adminNote String?       @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}

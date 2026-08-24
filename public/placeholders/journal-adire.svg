@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Placeholder for Journal — Adire article cover">
+  <rect width="1600" height="1000" fill="#23335C"/>
+  <g stroke="#E2C88F" stroke-opacity="0.35" stroke-width="3" fill="none">
+    <path d="M70 120V70h50"/>
+    <path d="M1480 70h50v50"/>
+    <path d="M1530 880v50h-50"/>
+    <path d="M120 930h-50v-50"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#E2C88F" text-anchor="middle">
+    <text x="800" y="480.75" font-size="55" letter-spacing="1.1">Journal — Adire article cover</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#E2C88F" fill-opacity="0.8" text-anchor="middle">
+    <text x="800" y="549.5" font-size="26" letter-spacing="4.68">1600 × 1000</text>
+    <text x="800" y="601.5" font-size="21.32" fill-opacity="0.62">Indigo dye pit in Abeokuta, cloth being lifted dripping from the vat. Documentary, no styling.</text>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" fill="#E2C88F" fill-opacity="0.55" font-size="19" letter-spacing="5.32">
+    <text x="70" y="62.4">PLACEHOLDER — NOT FINAL ARTWORK</text>
+    <text x="70" y="956.6">journal-adire.svg</text>
+  </g>
+</svg>
