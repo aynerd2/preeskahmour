@@ -19,6 +19,7 @@ import { PrismaClient, type Prisma } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
 import { DEFAULT_CONTENT, CONTENT_META, type SiteContentKey } from '../src/lib/site-content';
+import { priceCustomDesign } from '../src/lib/pricing';
 
 const prisma = new PrismaClient();
 
@@ -1304,9 +1305,26 @@ async function seedDemoOrder(userId: string) {
     where: { slug: { in: optionSlugs }, baseStyleId: null },
   });
 
-  const optionsTotal = options.reduce((sum, o) => sum + o.priceModifierKobo, 0);
-  const clothTotal = Math.round(fabric.pricePerMeterKobo * baseStyle.yardageMeters);
-  const total = baseStyle.basePriceKobo + clothTotal + optionsTotal;
+  // Priced through the real engine rather than by hand — an earlier version
+  // summed base + cloth + options itself and silently omitted the monogram
+  // charge, so the demo order disagreed with what the site would quote.
+  const price = priceCustomDesign({
+    baseStyle: {
+      name: baseStyle.name,
+      basePriceKobo: baseStyle.basePriceKobo,
+      yardageMeters: baseStyle.yardageMeters,
+    },
+    fabric: { name: fabric.name, pricePerMeterKobo: fabric.pricePerMeterKobo },
+    options: options.map((o) => ({
+      id: o.id,
+      name: o.name,
+      category: o.category,
+      priceModifierKobo: o.priceModifierKobo,
+    })),
+    fit: 'REGULAR',
+    monogram: 'AN',
+  });
+  const total = price.totalKobo;
 
   const design = await prisma.customDesign.create({
     data: {
