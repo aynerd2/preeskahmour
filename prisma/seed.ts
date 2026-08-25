@@ -1,5 +1,5 @@
 /**
- * Seed data for Preeskahmour.
+ * 
  *
  * Run with `npm run db:seed` (which pushes the schema first, so a clean clone
  * with an empty database works in one command).
