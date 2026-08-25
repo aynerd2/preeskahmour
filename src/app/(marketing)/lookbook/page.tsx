@@ -99,7 +99,7 @@ export default async function LookbookPage({ searchParams }: { searchParams: Sea
                       alt={image.alt ?? image.caption ?? 'Preeskahmour lookbook image'}
                       fill
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-[900ms] ease-editorial hover:scale-[1.03]"
+                      className="object-cover transition-transform duration-700 ease-editorial hover:scale-[1.03]"
                     />
                   </div>
 

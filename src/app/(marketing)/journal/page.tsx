@@ -81,7 +81,7 @@ export default async function JournalPage({ searchParams }: { searchParams: Sear
                         fill
                         priority
                         sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-[900ms] ease-editorial group-hover:scale-[1.03]"
+                        className="object-cover transition-transform duration-700 ease-editorial group-hover:scale-[1.03]"
                       />
                     ) : (
                       <div className="motif-diamond h-full w-full" />
@@ -130,7 +130,7 @@ export default async function JournalPage({ searchParams }: { searchParams: Sear
                               alt={post.coverAlt ?? post.title}
                               fill
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                              className="object-cover transition-transform duration-[900ms] ease-editorial group-hover:scale-[1.04]"
+                              className="object-cover transition-transform duration-700 ease-editorial group-hover:scale-[1.04]"
                             />
                           ) : (
                             <div className="motif-diamond h-full w-full" />

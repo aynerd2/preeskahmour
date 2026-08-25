@@ -58,7 +58,7 @@ export function OccasionTiles({
                     alt={tile.label}
                     fill
                     sizes="(max-width: 1024px) 50vw, 20vw"
-                    className="object-cover transition-transform duration-[900ms] ease-editorial group-hover:scale-105"
+                    className="object-cover transition-transform duration-700 ease-editorial group-hover:scale-105"
                   />
                 ) : (
                   <div className="motif-diamond h-full w-full" />

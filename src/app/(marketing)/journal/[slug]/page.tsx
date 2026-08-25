@@ -163,7 +163,7 @@ export default async function JournalPostPage({ params }: { params: Params }) {
                         alt={item.coverAlt ?? item.title}
                         fill
                         sizes="(max-width: 640px) 100vw, 33vw"
-                        className="object-cover transition-transform duration-[900ms] ease-editorial group-hover:scale-[1.04]"
+                        className="object-cover transition-transform duration-700 ease-editorial group-hover:scale-[1.04]"
                       />
                     ) : (
                       <div className="motif-diamond h-full w-full" />

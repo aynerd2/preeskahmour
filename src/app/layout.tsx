@@ -25,7 +25,8 @@ const display = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
+  // Variable font: the full weight range ships in one file, so `weight` is
+  // omitted deliberately. next/font rejects `axes` alongside a weight list.
   axes: ['SOFT', 'WONK', 'opsz'],
 });
 

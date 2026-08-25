@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import type { FabricFamily, Occasion } from '@prisma/client';
 
-import { ProductCard, ProductCardSkeleton } from '@/components/catalog/product-card';
+import { ProductCard } from '@/components/catalog/product-card';
 import { ActiveFilters, FilterRail, type FilterGroup } from '@/components/catalog/filter-rail';
 import { PageHeader } from '@/components/shared/page-header';
 import { EmptyState } from '@/components/shared/section';
@@ -144,15 +144,5 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
         </div>
       </div>
     </>
-  );
-}
-
-export function ShopGridSkeleton() {
-  return (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-3">
-      {Array.from({ length: 6 }, (_, i) => (
-        <ProductCardSkeleton key={i} />
-      ))}
-    </div>
   );
 }
