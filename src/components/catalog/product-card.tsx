@@ -97,7 +97,7 @@ export function ProductCard({
 
       <Link
         href={`/builder?product=${product.slug}`}
-        className="mt-3 inline-flex w-fit items-center border-b border-transparent pb-0.5 text-[0.66rem] uppercase tracking-[0.16em] text-ink-muted transition-colors hover:border-gold hover:text-ink"
+        className="mt-2 inline-flex min-h-[32px] w-fit items-center border-b border-transparent pb-0.5 text-[0.66rem] uppercase tracking-[0.16em] text-ink-muted transition-colors hover:border-gold hover:text-ink"
       >
         Customise this
       </Link>

@@ -133,6 +133,7 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
               />
             ) : (
               <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-5 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-14">
+                <h2 className="sr-only">Pieces</h2>
                 {products.map((product, i) => (
                   <Reveal key={product.id} delay={Math.min(i * 50, 250)}>
                     <ProductCard product={product} priority={i < 3} />

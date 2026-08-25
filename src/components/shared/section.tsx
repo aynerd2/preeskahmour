@@ -65,7 +65,7 @@ export function SectionHeading({
           <Link
             href={link.href}
             className={cn(
-              'link-underline group inline-flex shrink-0 items-center gap-2 pb-1 text-[0.72rem] font-medium uppercase tracking-[0.16em]',
+              'link-underline group inline-flex min-h-[32px] shrink-0 items-center gap-2 pb-1 text-[0.72rem] font-medium uppercase tracking-[0.16em]',
               tone === 'ivory' ? 'text-ivory/80 hover:text-ivory' : 'text-ink-muted hover:text-ink',
             )}
           >

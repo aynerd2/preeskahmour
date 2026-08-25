@@ -46,13 +46,16 @@ export async function SiteFooter() {
             </li>
             <li className="flex gap-3">
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden />
-              <a href={`mailto:${contact.email}`} className="link-underline">
+              <a href={`mailto:${contact.email}`} className="link-underline inline-block py-0.5">
                 {contact.email}
               </a>
             </li>
             <li className="flex gap-3">
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden />
-              <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="link-underline">
+              <a
+                href={`tel:${contact.phone.replace(/\s/g, '')}`}
+                className="link-underline inline-block py-0.5"
+              >
                 {contact.phone}
               </a>
             </li>
@@ -82,7 +85,7 @@ export async function SiteFooter() {
                 <li key={link.href + link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-ivory/70 transition-colors hover:text-gold"
+                    className="inline-block py-1 text-sm text-ivory/70 transition-colors hover:text-gold"
                   >
                     {link.label}
                   </Link>
@@ -99,13 +102,13 @@ export async function SiteFooter() {
             © {year} {BRAND.legalName}. Cut in Lagos.
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link href="/returns" className="hover:text-ivory/70">
+            <Link href="/returns" className="inline-block py-1 hover:text-ivory/70">
               Alterations &amp; returns
             </Link>
-            <Link href="/privacy" className="hover:text-ivory/70">
+            <Link href="/privacy" className="inline-block py-1 hover:text-ivory/70">
               Privacy
             </Link>
-            <Link href="/terms" className="hover:text-ivory/70">
+            <Link href="/terms" className="inline-block py-1 hover:text-ivory/70">
               Terms
             </Link>
           </div>

@@ -130,9 +130,12 @@ export function HeaderShell({ announcement }: { announcement: Announcement }) {
               <Search className="h-[18px] w-[18px]" />
             </Link>
 
+            {/* Hidden on the smallest screens — the mobile drawer already
+                carries a sign-in / account link, and three icons plus the
+                wordmark do not fit across 375px. */}
             <Link
               href={session?.user ? '/account' : '/login'}
-              className="flex h-10 w-10 items-center justify-center"
+              className="hidden h-10 w-10 items-center justify-center sm:flex"
               aria-label={session?.user ? 'Your account' : 'Sign in'}
             >
               <User className="h-[18px] w-[18px]" />
@@ -141,7 +144,7 @@ export function HeaderShell({ announcement }: { announcement: Announcement }) {
             <button
               type="button"
               onClick={openCart}
-              className="relative -mr-2 flex h-10 w-10 items-center justify-center"
+              className="relative -mr-1 flex h-10 w-10 items-center justify-center sm:-mr-2"
               aria-label={`Cart, ${count} ${count === 1 ? 'item' : 'items'}`}
             >
               <ShoppingBag className="h-[18px] w-[18px]" />

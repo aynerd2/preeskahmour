@@ -578,6 +578,9 @@ export function BuilderShell({
 function BuilderSkeleton() {
   return (
     <div className="lg:grid lg:grid-cols-[minmax(0,45%)_minmax(0,55%)]">
+      {/* The page has no other heading until the store rehydrates, so name it
+          here rather than leaving the first paint without an h1. */}
+      <h1 className="sr-only">Design your suit</h1>
       <div className="bg-cream/50 p-10">
         <div className="skeleton mx-auto h-[40vh] max-w-sm lg:h-[60vh]" />
       </div>

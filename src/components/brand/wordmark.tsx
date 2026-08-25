@@ -17,7 +17,10 @@ export function Wordmark({
   const inner = (
     <span
       className={cn(
-        'font-display text-[1.05rem] font-medium uppercase leading-none tracking-[0.34em] sm:text-[1.15rem]',
+        // Tracking tightens on small screens: at 0.34em the wordmark is 217px
+        // wide, which together with the header icons overflowed a 375px
+        // viewport and made the whole page scroll sideways.
+        'font-display text-[0.92rem] font-medium uppercase leading-none tracking-[0.2em] sm:text-[1.15rem] sm:tracking-[0.34em]',
         className,
       )}
     >

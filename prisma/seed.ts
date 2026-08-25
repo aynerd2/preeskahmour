@@ -11,6 +11,10 @@
  * Prices are integer kobo. NGN 145,000 is written 145_000_00.
  */
 
+// Prisma's CLI loads .env itself, but `tsx prisma/seed.ts` does not — so
+// without this the seed cannot see DATABASE_URL and fails on a clean clone.
+import 'dotenv/config';
+
 import { PrismaClient, type Prisma } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
