@@ -1,4 +1,5 @@
 'use client';
+//Very important to have this file be a client component, otherwise the error boundary will not work correctly.
 
 import * as React from 'react';
 import Link from 'next/link';
