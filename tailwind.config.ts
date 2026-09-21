@@ -83,6 +83,15 @@ const config: Config = {
         'display-sm': ['clamp(1.45rem, 2.4vw, 2.125rem)', { lineHeight: '1.15', letterSpacing: '-0.01em' }],
         eyebrow: ['0.6875rem', { lineHeight: '1', letterSpacing: '0.22em' }],
       },
+      // Off-scale steps the codebase uses (border-ink/12, divide-ink/8,
+      // bg-ivory/92…). Without these Tailwind emits no rule at all: the
+      // borders silently fell back to the default border colour, and the
+      // translucent header on inner pages rendered fully transparent.
+      opacity: {
+        8: '0.08',
+        12: '0.12',
+        92: '0.92',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

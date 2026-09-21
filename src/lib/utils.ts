@@ -1,5 +1,22 @@
 import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { extendTailwindMerge } from 'tailwind-merge';
+
+/**
+ * tailwind-merge has to be told about the custom font sizes in
+ * tailwind.config.ts. Without this it cannot tell that `text-display-md` is a
+ * size and `text-ink` a colour; it treats them as the same group, keeps the
+ * last one, and silently drops the size — which rendered every section
+ * heading on the site at 16px.
+ */
+const twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      'font-size': [
+        { text: ['display-xl', 'display-lg', 'display-md', 'display-sm', 'eyebrow'] },
+      ],
+    },
+  },
+});
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
