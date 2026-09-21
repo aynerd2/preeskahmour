@@ -25,6 +25,12 @@ export type AssetSlot = {
   tone?: 'emerald' | 'indigo' | 'terracotta' | 'gold' | 'ink' | 'cream';
   /** Group heading in README-ASSETS.md. */
   group: string;
+  /**
+   * Set when real photography already fills this slot (see
+   * src/lib/brand-assets.ts). The placeholder is still generated — it is the
+   * fallback if the Cloudinary cloud name is ever unset.
+   */
+  filledBy?: string;
 };
 
 const P = (
@@ -37,7 +43,23 @@ const P = (
   tone: AssetSlot['tone'] = 'emerald',
 ): AssetSlot => ({ name, where, width, height, brief, group, tone });
 
-export const ASSET_SLOTS: AssetSlot[] = [
+/**
+ * Slots real photography already fills. Mirrors the SLOTS map in
+ * src/lib/brand-assets.ts — keep the two in step when a placement changes.
+ */
+const FILLED_BY: Record<string, string> = {
+  'home-hero': 'House film `Suit_video` (Cloudinary)',
+  'story-teaser': 'House photo `p5` (Cloudinary)',
+  'story-portrait': 'House photo `p6` (Cloudinary)',
+};
+
+export const ASSET_SLOTS: AssetSlot[] = rawSlots().map((slot) => ({
+  ...slot,
+  filledBy: FILLED_BY[slot.name],
+}));
+
+function rawSlots(): AssetSlot[] {
+  return [
   // --- Global ---------------------------------------------------------------
   P(
     'og-default',
@@ -52,10 +74,10 @@ export const ASSET_SLOTS: AssetSlot[] = [
   // --- Homepage -------------------------------------------------------------
   P(
     'home-hero',
-    'Homepage hero (full bleed)',
-    2400,
-    1500,
-    'THE most important shot on the site. Model standing three-quarter to camera in an emerald aso-oke blazer with peak lapel and a wide-leg trouser. Warm studio key from camera left, deep unfilled shadow on the right of her body. Cream seamless backdrop. Compose loose and leave the right third visually quiet — the headline and buttons sit there. Shoot a 9:16 crop of the same setup for mobile.',
+    'Homepage hero (portrait media, split layout)',
+    1200,
+    1600,
+    'The hero is a split layout: portrait media in one column, headline in the other. Currently filled by the house film. To replace it with a still, shoot PORTRAIT (3:4) — a full-length look, subject centred, with room above the head. A landscape frame will be cropped hard at the sides.',
     'Homepage',
     'emerald',
   ),
@@ -63,7 +85,7 @@ export const ASSET_SLOTS: AssetSlot[] = [
     'story-teaser',
     'Homepage — founder story block',
     1200,
-    1500,
+    1600,
     'Prisca at the cutting table, tape around her neck, chalk in hand, caught mid-work rather than posed to camera. Natural window light, warm. Pattern paper and cloth in the near foreground, slightly out of focus.',
     'Homepage',
     'ink',
@@ -116,7 +138,7 @@ export const ASSET_SLOTS: AssetSlot[] = [
 
   // --- Our story ------------------------------------------------------------
   P('story-hero', 'Our Story — hero', 2400, 1300, 'Wide of the atelier: cutting table, bolts standing on end, dress forms, a machinist at the back. Natural light, completely unstaged.', 'Our Story', 'emerald'),
-  P('story-portrait', 'Our Story — founder portrait', 1200, 1500, 'Prisca to camera, arms folded, wearing her own tailoring. Serious and warm; a smile is not required. Plain cream or deep emerald ground. This is the portrait press will reuse — shoot it properly.', 'Our Story', 'ink'),
+  P('story-portrait', 'Our Story — founder portrait', 1200, 1600, 'Prisca to camera, arms folded, wearing her own tailoring. Serious and warm; a smile is not required. Plain cream or deep emerald ground. This is the portrait press will reuse — shoot it properly.', 'Our Story', 'ink'),
   P('story-process', 'Our Story — process inset', 1400, 1000, 'Tailor’s chalk marks and pattern weights on adire laid flat, shears in frame. Shot from directly overhead.', 'Our Story', 'indigo'),
 
   // --- Corporate ------------------------------------------------------------
@@ -145,7 +167,8 @@ export const ASSET_SLOTS: AssetSlot[] = [
   P('journal-asooke', 'Journal — Aso-oke article cover', 1600, 1000, 'Narrow loom in Iseyin, weaver’s hands and the strip forming. Warm, dusty light.', 'Journal', 'gold'),
   P('journal-corporate', 'Journal — Corporate article cover', 1600, 1000, 'Rail of finished corporate suiting in one cloth, different cuts, in the atelier.', 'Journal', 'ink'),
   P('journal-care', 'Journal — Fabric care article cover', 1600, 1000, 'Iron and pressing cloth on a sleeve board, steam visible. Domestic, warm.', 'Journal', 'terracotta'),
-];
+  ];
+}
 
 function PRODUCT_SLOTS(): AssetSlot[] {
   const products: [string, string, AssetSlot['tone']][] = [

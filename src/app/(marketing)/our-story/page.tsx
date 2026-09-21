@@ -3,9 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { PageHeader } from '@/components/shared/page-header';
+import { ResolvedImage } from '@/components/shared/resolved-image';
 import { Reveal } from '@/components/shared/reveal';
 import { Section, SectionHeading } from '@/components/shared/section';
 import { Button } from '@/components/ui/button';
+import { SLOTS, resolveSlot } from '@/lib/brand-assets';
 import { BRAND } from '@/lib/constants';
 import { getContent } from '@/lib/site-content';
 import { getTestimonials } from '@/lib/queries';
@@ -39,12 +41,12 @@ export default async function OurStoryPage() {
       {/* Portrait + opening */}
       <Section className="container" size="lg">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)] lg:gap-16">
-          <Reveal className="relative aspect-[4/5] overflow-hidden bg-cream lg:sticky lg:top-28 lg:self-start">
-            <Image
-              src={content.portrait.url}
-              alt={content.portrait.alt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 420px"
+          {/* 3:4 — the photography's own ratio, so the portrait is uncropped.
+              Capped below lg so a tablet does not render it a screen tall. */}
+          <Reveal className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden bg-cream lg:sticky lg:top-28 lg:max-w-none lg:self-start">
+            <ResolvedImage
+              source={resolveSlot(content.portrait, SLOTS.ourStoryPortrait)}
+              sizes="(max-width: 1024px) 448px, 420px"
               className="object-cover"
             />
           </Reveal>
@@ -79,6 +81,19 @@ export default async function OurStoryPage() {
         <Section size="lg" className="motif-asooke border-y border-ink/10 bg-cream/50">
           <div className="container">
             <Reveal className="mx-auto max-w-3xl text-center">
+              {/* Her own words, so her face belongs beside them. This is the
+                  founder quote block — deliberately NOT the customer
+                  testimonials, where her photo would misattribute their
+                  quotes to her. */}
+              <div className="relative mx-auto mb-8 h-28 w-28 overflow-hidden rounded-full ring-1 ring-gold ring-offset-4 ring-offset-cream sm:h-32 sm:w-32">
+                <ResolvedImage
+                  source={resolveSlot(null, SLOTS.founderQuote)}
+                  sizes="128px"
+                  className="object-cover"
+                  crop={{ aspectRatio: '1:1', gravity: 'face', zoom: 0.55 }}
+                />
+              </div>
+
               <p className="font-display text-display-sm leading-[1.35] text-ink">
                 &ldquo;{content.pullQuote}&rdquo;
               </p>

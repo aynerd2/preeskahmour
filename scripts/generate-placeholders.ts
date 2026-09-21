@@ -149,26 +149,47 @@ function readmeAssets() {
     '  fabric in `/studio → Fabrics`. Until then the site draws an original',
     '  procedural pattern in the right colour family.',
     '- **Fabric detail shots** — the same cloth made up into a garment, 1400×1000.',
-    '- **Hero video (optional)** — the homepage hero accepts an MP4 instead of a',
-    '  still. 10–15s, silent, looping, no cuts. Under 6MB, H.264, 1920×1080.',
+    '',
+    '## Already in hand',
+    '',
+    'Six portraits of Prisca in finished suits (`p1`–`p6`, 4284×5712, 3:4) and one',
+    'portrait film (`Suit_video`, 650×1192) are in Cloudinary. Their placements live',
+    'in `src/lib/brand-assets.ts`:',
+    '',
+    '- **Homepage hero** — the film.',
+    '- **Homepage story block** — `p5`.',
+    '- **Our Story founder portrait** — `p6`; the founder-quote avatar is a face crop of `p4`.',
+    '- **Lookbook** — all six, at their native ratio. Lookbook rows that still point',
+    '  at a placeholder are hidden from the public page until real images replace them.',
+    '',
+    'They are deliberately **not** used for fabric swatches or product photography:',
+    'they show finished looks, not the specific cloth or shop pieces.',
     '',
   ];
 
   let total = 0;
+  let filled = 0;
   for (const [group, slots] of groups) {
     lines.push(`## ${group}`, '');
-    lines.push('| Slot | Where it appears | Size (px) | Brief |');
-    lines.push('| --- | --- | --- | --- |');
+    lines.push('| Slot | Where it appears | Size (px) | Status | Brief |');
+    lines.push('| --- | --- | --- | --- | --- |');
     for (const slot of slots) {
       total += 1;
+      if (slot.filledBy) filled += 1;
+      const status = slot.filledBy ? `Filled — ${slot.filledBy}` : 'Needs shooting';
       lines.push(
-        `| \`${slot.name}.svg\` | ${slot.where} | ${slot.width}×${slot.height} | ${slot.brief.replace(/\|/g, '\\|')} |`,
+        `| \`${slot.name}.svg\` | ${slot.where} | ${slot.width}×${slot.height} | ${status} | ${slot.brief.replace(/\|/g, '\\|')} |`,
       );
     }
     lines.push('');
   }
 
-  lines.push('---', '', `**${total} image slots** in total.`, '');
+  lines.push(
+    '---',
+    '',
+    `**${total} image slots** in total — ${filled} filled by real photography, ${total - filled} still to shoot.`,
+    '',
+  );
   return lines.join('\n');
 }
 

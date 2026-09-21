@@ -3,9 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { PageHeader } from '@/components/shared/page-header';
+import { ResolvedImage } from '@/components/shared/resolved-image';
 import { Reveal } from '@/components/shared/reveal';
 import { EmptyState } from '@/components/shared/section';
 import { Button } from '@/components/ui/button';
+import { HOUSE_PHOTOS, SLOTS, isPlaceholderUrl } from '@/lib/brand-assets';
+import { isCloudinaryConfigured } from '@/lib/cloudinary-url';
 import { getCollections, getLookbookImages } from '@/lib/queries';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +33,26 @@ export default async function LookbookPage({ searchParams }: { searchParams: Sea
 
   const active = collections.find((c) => c.slug === collectionSlug);
 
+  // Rows still pointing at a generated placeholder are not photography, and a
+  // grey "PLACEHOLDER" panel beside real editorial work reads as a broken
+  // page. They stay in the studio, ready to be filled; they just are not
+  // shown publicly.
+  const realImages = images.filter((image) => !isPlaceholderUrl(image.url));
+
+  // The house portraits are not tied to a collection, so they appear on the
+  // unfiltered view only.
+  const houseImages =
+    !collectionSlug && isCloudinaryConfigured()
+      ? SLOTS.lookbook.map((key) => HOUSE_PHOTOS[key])
+      : [];
+
+  // Filter chips only earn their place once a collection actually has real
+  // imagery behind it — until then every chip leads to an empty page. They
+  // stay visible while a filter is active, so there is always a way back.
+  const showFilters = collections.length > 0 && (realImages.length > 0 || Boolean(collectionSlug));
+
+  const nothingToShow = realImages.length === 0 && houseImages.length === 0;
+
   return (
     <>
       <PageHeader
@@ -43,7 +66,7 @@ export default async function LookbookPage({ searchParams }: { searchParams: Sea
 
       <div className="container pb-24">
         {/* Collection filter */}
-        {collections.length > 0 ? (
+        {showFilters ? (
           <nav className="hide-scrollbar mb-10 flex gap-2 overflow-x-auto pb-1" aria-label="Collections">
             <FilterChip href="/lookbook" active={!collectionSlug}>
               All
@@ -60,7 +83,7 @@ export default async function LookbookPage({ searchParams }: { searchParams: Sea
           </nav>
         ) : null}
 
-        {images.length === 0 ? (
+        {nothingToShow ? (
           <EmptyState
             title="The lookbook is being shot"
             body="Images are added from the studio as each collection is photographed. In the meantime, the shop shows what we are cutting."
@@ -78,7 +101,35 @@ export default async function LookbookPage({ searchParams }: { searchParams: Sea
            * column rather than across — acceptable for a purely visual grid.
            */
           <div className="columns-2 gap-4 [column-fill:_balance] sm:columns-2 lg:columns-3 lg:gap-6">
-            {images.map((image, i) => (
+            {/* House portraits first, at their native 3:4 — no crop. */}
+            {houseImages.map((photo, i) => (
+              <Reveal
+                key={photo.publicId}
+                delay={Math.min(i * 45, 300)}
+                as="article"
+                className="mb-4 break-inside-avoid lg:mb-6"
+              >
+                <figure>
+                  <div className="relative aspect-[3/4] w-full overflow-hidden bg-cream">
+                    <ResolvedImage
+                      source={{
+                        kind: 'cloudinary',
+                        publicId: photo.publicId,
+                        alt: photo.alt,
+                        width: photo.width,
+                        height: photo.height,
+                      }}
+                      priority={i < 2}
+                      sizes="(max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-editorial hover:scale-[1.03]"
+                    />
+                  </div>
+                  <figcaption className="mt-2.5 text-xs text-ink-muted">{photo.caption}</figcaption>
+                </figure>
+              </Reveal>
+            ))}
+
+            {realImages.map((image, i) => (
               <Reveal
                 key={image.id}
                 delay={Math.min(i * 45, 300)}

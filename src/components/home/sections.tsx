@@ -6,7 +6,9 @@ import type { HomeTile, Testimonial } from '@prisma/client';
 import { Reveal } from '@/components/shared/reveal';
 import { SectionHeading, Section, GoldRule } from '@/components/shared/section';
 import { FabricCard } from '@/components/catalog/fabric-card';
+import { ResolvedImage } from '@/components/shared/resolved-image';
 import { Button } from '@/components/ui/button';
+import { SLOTS, resolveSlot } from '@/lib/brand-assets';
 import type { FabricCard as FabricCardData } from '@/lib/queries';
 import type { SiteContent } from '@/lib/site-content';
 import { OCCASION_BLURBS } from '@/lib/constants';
@@ -126,12 +128,13 @@ export function StoryTeaser({ content }: { content: SiteContent['home.storyTease
     <Section className="container">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-20">
         <Reveal className="relative order-2 lg:order-1">
-          <div className="relative aspect-[4/5] overflow-hidden bg-cream">
-            <Image
-              src={content.image.url}
-              alt={content.image.alt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
+          {/* 3:4 is the house photography's native ratio, so a portrait lands
+              here uncropped. Capped on a phone so a full-width portrait does
+              not fill two screens. */}
+          <div className="relative mx-auto aspect-[3/4] max-w-md overflow-hidden bg-cream lg:max-w-none">
+            <ResolvedImage
+              source={resolveSlot(content.image, SLOTS.homeStoryTeaser)}
+              sizes="(max-width: 1024px) 448px, 50vw"
               className="object-cover"
             />
           </div>

@@ -185,7 +185,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       url: PLACEHOLDER('home-hero'),
       alt: 'A woman in a made-to-measure emerald aso-oke blazer and matching trousers',
       briefNote:
-        'Full-bleed portrait, 2400×1500. Model standing three-quarter, emerald aso-oke blazer with peak lapel, wide trouser. Warm studio key light from camera left, deep shadow side. Cream seamless backdrop. Leave the right third quiet — the headline sits there.',
+        'Currently filled by the house film. The hero is a split layout with portrait media, so if you replace it with a still, use PORTRAIT 3:4 (at least 1200×1600): a full-length look, subject centred. A landscape image will be cropped hard at the sides.',
     },
     videoUrl: '',
   },
@@ -225,7 +225,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       url: PLACEHOLDER('story-teaser'),
       alt: 'Prisca Ogunlade at the drafting table in the Preeskahmour atelier',
       briefNote:
-        'Portrait, 1200×1500. Prisca at the cutting table, tape around her neck, chalk in hand, mid-work — not posed to camera. Natural window light, warm. Cloth and pattern paper visible in the foreground.',
+        'Portrait 3:4, at least 1200×1600. Prisca at the cutting table, tape around her neck, chalk in hand, mid-work — not posed to camera. Natural window light, warm. Cloth and pattern paper visible in the foreground.',
     },
     stats: [
       { value: '2019', label: 'House founded' },
@@ -385,7 +385,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       url: PLACEHOLDER('story-portrait'),
       alt: 'Portrait of Prisca Ogunlade, founder of Preeskahmour',
       briefNote:
-        'Portrait, 1200×1500. Prisca to camera, arms folded, wearing her own tailoring. Serious, warm, no smile required. Plain cream or deep emerald ground.',
+        'Portrait 3:4, at least 1200×1600. Prisca to camera, arms folded, wearing her own tailoring. Serious, warm, no smile required. Plain cream or deep emerald ground.',
     },
     sections: [
       {
