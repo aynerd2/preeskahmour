@@ -165,7 +165,7 @@ so adding a field there makes it editable with no further work.
 
 1. Push to GitHub and import the repo at [vercel.com/new](https://vercel.com/new).
 2. Add every variable from `.env.example` in **Settings → Environment Variables**.
-3. Set `NEXT_PUBLIC_APP_URL` and `NEXTAUTH_URL` to the real domain.
+3. Set `NEXT_APP_URL` and `NEXTAUTH_URL` to the real domain.
 4. Deploy. The build runs `prisma generate` automatically.
 
 Run migrations against production once, from your machine:

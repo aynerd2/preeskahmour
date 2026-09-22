@@ -95,7 +95,7 @@ function isParseableUrl(value: string | undefined): value is string {
 }
 
 /**
- * NEXT_PUBLIC_APP_URL can be blank or malformed in an environment's config
+ * NEXT_APP_URL can be blank or malformed in an environment's config
  * without anyone noticing until a build reads it. `new URL()` on a bad value
  * throws, and since this feeds every page's `generateMetadata`, that used to
  * take down the entire production build. Validate before trusting it.
@@ -103,6 +103,6 @@ function isParseableUrl(value: string | undefined): value is string {
 export function absoluteUrl(path = '') {
   const vercelUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined;
   const base =
-    [process.env.NEXT_PUBLIC_APP_URL, vercelUrl].find(isParseableUrl) ?? 'http://localhost:3000';
+    [process.env.NEXT_APP_URL, vercelUrl].find(isParseableUrl) ?? 'http://localhost:3000';
   return `${base.replace(/\/$/, '')}${path.startsWith('/') ? path : `/${path}`}`;
 }
